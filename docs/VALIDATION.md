@@ -2,13 +2,13 @@
 
 ## Relevance and feed eligibility — 0.3.1
 
-The [complete follow-up window](../examples/news-window-2026-09-28-v2/README.md)
+The complete follow-up window (not included in this repository)
 uses separate primary-text relevance input and preserves unchanged version 1
 receipts for other tasks. All 500 sources completed. The feed policy produced
 64 keep, 46 exact-format suppress and 390 review outcomes at the unchanged 0.8
 threshold. The final replay reused all native receipts.
 
-The [source review](../examples/relevance-review-2026-09-28/README.md) retains
+The source review (not included in this repository) retains
 assistant annotations and every decision. Its 11 decisive outcomes matched the
 review; 35 remained review. This is diagnostic evidence, not independent human
 ground truth or fitted probability calibration. Native false positives and
@@ -47,7 +47,7 @@ report application policy coverage only.
 
 ## Native source window — 28 September 2026
 
-[Inspect all 500 records](../examples/news-window-2026-09-28/README.md) · [Source inspection notes](READING_THE_RESULTS.md)
+Inspect all 500 records (not included in this repository) · [Source inspection notes](READING_THE_RESULTS.md)
 
 | Measurement | Result |
 | --- | ---: |

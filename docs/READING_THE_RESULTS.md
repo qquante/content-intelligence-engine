@@ -20,11 +20,11 @@ checks, not a labeled accuracy benchmark.
 
 | Record | Native observation | Interpretation |
 | --- | --- | --- |
-| [Technical commit](../examples/news-window-2026-09-28/records/1d95a206b51fd1ab2221aeee.md) | `technical` at 0.9975; relevance selects `insufficient` at 0.4105 | The event category and feed relevance are separate judgments. Recognizing technical content does not establish market significance. |
-| [Addressed token request](../examples/news-window-2026-09-28/records/0994402fd914acc1a8c6840b.md) | `launch` at 0.9959; `announcement` at 0.9968 | The primary text asks another account to launch an asset. These labels must not be interpreted as proof that deployment occurred. Request-versus-completion needs explicit review before automatic downstream use. |
-| [Reported deployment](../examples/news-window-2026-09-28/records/bedd0953049a6abb567c92dd.md) | `launch` at 0.9713; token reference selects `explicit` at 0.4029 | The source contains an address-shaped reference and reports deployment. The package extracts that reference separately; it does not verify a chain transaction or official affiliation. |
-| [Repost activity](../examples/news-window-2026-09-28/records/4bb90a4ea735fc77060f6bf1.md) | The model returns an announcement label using supplied context | The primary text is only a repost status. The operational-event gate prevents the quoted claim from becoming an accepted primary-author announcement. |
-| [Deleted-source activity](../examples/news-window-2026-09-28/records/06176ed40a68575df25d4314.md) | Native answers remain inspectable | The collection event marks deletion. The source gate prevents automatic consumption of those answers. |
+| Technical commit (not included in this repository) | `technical` at 0.9975; relevance selects `insufficient` at 0.4105 | The event category and feed relevance are separate judgments. Recognizing technical content does not establish market significance. |
+| Addressed token request (not included in this repository) | `launch` at 0.9959; `announcement` at 0.9968 | The primary text asks another account to launch an asset. These labels must not be interpreted as proof that deployment occurred. Request-versus-completion needs explicit review before automatic downstream use. |
+| Reported deployment (not included in this repository) | `launch` at 0.9713; token reference selects `explicit` at 0.4029 | The source contains an address-shaped reference and reports deployment. The package extracts that reference separately; it does not verify a chain transaction or official affiliation. |
+| Repost activity (not included in this repository) | The model returns an announcement label using supplied context | The primary text is only a repost status. The operational-event gate prevents the quoted claim from becoming an accepted primary-author announcement. |
+| Deleted-source activity (not included in this repository) | Native answers remain inspectable | The collection event marks deletion. The source gate prevents automatic consumption of those answers. |
 
 ## Confidence review
 
@@ -38,4 +38,4 @@ precision and accepted coverage per task. Keep classification, source verificati
 and financial execution as separate decisions.
 
 See [Confidence](CONFIDENCE.md), [Intelligence API](INTELLIGENCE.md), and the
-[complete casebook](../examples/news-window-2026-09-28/README.md).
+complete casebook (not included in this repository).

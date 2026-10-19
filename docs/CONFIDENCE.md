@@ -29,7 +29,7 @@ suppress free-form text. These source checks do not alter the native distributio
 or manufacture a confidence value. Short social fragments below 32 characters,
 without a URL, cashtag or EVM-shaped reference, require review.
 
-The [relevance review](../examples/relevance-review-2026-09-28/README.md) preserves
+The relevance review (not included in this repository) preserves
 the complete follow-up window and assistant-reviewed examples. Its policy checks
 are not a fitted probability calibration or an independent accuracy benchmark.
 
