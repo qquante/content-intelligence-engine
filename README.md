@@ -1,81 +1,52 @@
 # Content Intelligence Engine
 
-**Attributed content, typed model answers and durable assessment records.**
-
 ![Language: Python](https://img.shields.io/badge/Language-Python-3776AB?style=flat-square&logo=python) ![Ledger: SQLite](https://img.shields.io/badge/Ledger-SQLite-555555?style=flat-square) [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-555555?style=flat-square)](LICENSE)
 
-[Overview](#overview) · [Quickstart](#quickstart) · [Example](#example) · [Validation](#validation) · [Documentation](#documentation)
+Turn attributed source content into typed assessments that can be queried, exported and traced back to the original input.
 
-## Overview
+The pipeline accepts bounded source events, applies assessment/relevance policies, validates backend answers and records decisions in a persistent ledger. It is designed for content analysis across news, websites and social/development sources; the package retains its `omnia-news` command names.
 
-A Python pipeline that turns source content and typed model answers into durable, evidence-linked assessments.
+## Source contract first
 
-**Stack:** Python · typed contracts · local inference adapter · SQLite · JSONL · unittest
+[contracts.py](src/omnia_news/contracts.py) requires source identity, platform, URL, author, text and observation time. It rejects unknown fields and oversized input, requires timezone-aware timestamps and checks source URLs. Supported platform values include `github`, `x`, `reddit`, `youtube`, `website` and `news`.
 
-## An assessment retains its source
-
-| Component | Behavior |
-| --- | --- |
-| Attribution | Primary publications, replies and quotes retain separate source roles. |
-| Validation | Input checks and typed output policies constrain reusable assessments. |
-| Persistence | SQLite decision records retain assessment identity, policy and evidence. |
-
-## Processing path
-
-```mermaid
-flowchart LR
-  N0["Attributed publication"]
-  N1["input/policy checks"]
-  N2["typed backend answer"]
-  N3["validated assessment"]
-  N4["decision ledger and queries"]
-N0 --> N1 --> N2 --> N3 --> N4
+```json
+{
+  "id": "documentation-event-1",
+  "platform": "website",
+  "url": "https://example.com/update",
+  "author": "Example publisher",
+  "text": "A synthetic release announcement.",
+  "observed_at": "2026-10-20T12:00:00+00:00"
+}
 ```
 
-## Quickstart
+This is a synthetic source event, not an inference result. Context can retain bounded reply/quote/repost relationships; GitHub commit sources have additional repository/SHA identity checks.
+
+## Assessment lifecycle
+
+```mermaid
+flowchart TD
+  Source[Attributed source event] --> Contract[Bounded input validation]
+  Contract --> Policy[Task and relevance policy]
+  Policy --> Backend[Configured assessment backend]
+  Backend --> Answer[Typed-answer validation]
+  Answer --> Ledger[(SQLite decision ledger)]
+  Ledger --> Query[Query and JSONL export]
+```
+
+The [pipeline](src/omnia_news/pipeline.py), [relevance policy](src/omnia_news/relevance_policy.py) and [query interface](src/omnia_news/query.py) are separate from the local inference adapter. Persistent records preserve evidence and policy context rather than retaining only a final label.
+
+## Run the offline checks
 
 ```console
 python -m venv .venv
-# Activate .venv, then:
 python -m pip install -e .
 python -m unittest discover -s tests -v
 ```
 
-The commands above install prerequisites or run the specified offline checks. Live collection, cloud operations, messaging and trading are separate operational steps when present.
+Tests use controlled backends and temporary state. The previously recorded clean installation/offline suite passed; it does not establish the quality of a particular checkpoint. New native inference requires the separately configured runtime and model revision. Use the package's CLI help and [.env.example](.env.example) for runtime inputs; model weights and provider secrets are not bundled.
 
-## Example
+**Technology:** Python · typed contracts · local inference adapter · SQLite · JSONL · unittest
 
-**Inspect the workflow**
-
-Trace a publication through input checks, backend assessment, typed validation and ledger queries. JSONL supports bounded batch input/output. Controlled backends in the tests demonstrate contract handling without requiring a model download. Existing command names remain `omnia-news`, `omnia-news-batch` and `omnia-news-query`.
-
-## Configuration and storage
-
-Python 3.10+ is declared. [.env.example](.env.example) lists the local checkpoint, inference limits, ledger and content-policy settings. A local inference backend is optional for offline tests; native model execution requires separate installation and checkpoint selection.
-
-## Repository guide
-
-| Location | Responsibility |
-| --- | --- |
-| [src/omnia_news/cli.py](src/omnia_news/cli.py) | Streaming CLI |
-| [src/omnia_news/batch.py](src/omnia_news/batch.py) | Batch processing |
-| [src/omnia_news/query.py](src/omnia_news/query.py) | Ledger queries |
-| [tests](tests) | Controlled-backend regression checks |
-
-## Validation
-
-All 96 tests passed on Python 3.13.16 using offline fixtures or controlled backends. A live inference checkpoint was not exercised.
-
-## Scope and operational boundaries
-
-Typed-output correctness and record persistence do not measure factual model quality. The last recorded validation passed 96 offline tests on Python 3.13.16; it did not exercise a live checkpoint. Apache-2.0 and upstream notices are preserved.
-
-## Documentation
-
-- [Architecture](docs/ARCHITECTURE.md)
-- [API](docs/API.md)
-- [Attribution](THIRD_PARTY_NOTICES.md)
-
-## License and attribution
-
-See [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Source license: [Apache-2.0](LICENSE). Existing upstream and third-party notices are retained.
