@@ -34,7 +34,7 @@ Offline tests use controlled backends; they do not benchmark model quality or ve
 python -m unittest discover -s tests -v
 ```
 
-These checks use offline fixtures or controlled backends.
+All 96 tests passed on Python 3.13.16 using offline fixtures or controlled backends. A live inference checkpoint was not exercised.
 
 ## License
 
